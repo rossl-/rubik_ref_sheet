@@ -1,0 +1,406 @@
+\documentclass[]{article}
+
+\usepackage{titlesec}
+
+\renewcommand\thesection{\Roman{section}}
+\renewcommand\thesubsection{\thesection.\Alph{subsection}}
+\titleformat{\section}[block]{\bfseries}{\thesection.}{1em}{}
+\titleformat{\subsection}[block]{\hspace{2em}}{\thesubsection}{1em}{}
+
+\newcommand{\Rubikbracket}[1]{$\left(\mbox{#1}\right)$}
+\newcommand{\Rubikbrace}[1]{$\left\{\mbox{#1}\right\}$}
+
+\makeatletter
+% we use \prefix@<level> only if it is defined
+\renewcommand{\@seccntformat}[1]{%
+  \ifcsname prefix@#1\endcsname
+  \csname prefix@#1\endcsname
+  \else
+  \csname the#1\endcsname\quad
+  \fi}
+% define \prefix@section
+\newcommand\prefix@section{}
+\newcommand\prefix@subsection{}
+\makeatother
+
+\author{}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{tikz}
+\usepackage{rubikcube,rubikrotation,rubikpatterns}
+\usepackage{wrapfig}
+\begin{document}
+
+% ==========================================
+\section{Rubik Notation}
+
+\begin{wrapfigure}{r}{4cm}
+  \vspace{-50pt}
+  \begin{center}
+    \RubikFaceUpAll{W}
+    \RubikFaceFrontAll{O}
+    \RubikFaceRightAll{G}
+    \ShowCube{4cm}{0.5}{%
+      \DrawRubikCubeRU%
+      %% Right
+      \draw[line width=1pt,color=blue,->] (3.5,2)-- (5.3, 2);
+      \node(R) at (4.6, 2.5) [black]{\textbf{\textsf{R}}};
+      \node(x) at (5.8, 2) [black]{\textbf{\textsf{x}}};
+      %% Left
+      \draw[line width=1pt,color=blue] (-0.2,2)-- (-1.5, 2);
+      \node(L) at (-1.1, 2.5) [black]{\textbf{\textsf{L}}};
+      %% Up
+      \draw[line width=1pt,color=blue,->] (2, 3.5)-- (2, 5.5);
+      \node(U) at (1.4, 4.7) [black]{\textbf{\textsf{U}}};
+      \node(y) at (2, 6.1) [black]{\textbf{\textsf{y}}};
+      %% Down
+      \draw[line width=1pt,color=blue] (2, -0.2)-- (2, -1.5);
+      \node(D) at (2.6, -1.1) [black]{\textbf{\textsf{D}}};
+      %% Front
+      \draw[line width=1pt,color=blue,->] (1.5, 1.5)-- (0, -1);
+      \node(F) at (0.7, -0.7) [black]{\textbf{\textsf{F}}};
+      \node(z) at (-0.3, -1.4) [black]{\textbf{\textsf{z}}};
+      %% Back
+      \draw[line width=1pt,color=blue] (3.2, 4.2)-- (4, 5.5);
+      \node(B) at (4.4, 5) [black]{\textbf{\textsf{B}}};
+    }
+  \end{center}
+  \caption{Rubik Notation}
+\end{wrapfigure}
+
+Rubik Notation includes the glyphs, letters, and symbols that make up
+a single 90 degree rotation (or ``move'') of the Rubik Cube.\\
+An attempt is made to limit move sequences to the following notation
+(Up, Right, Left, Front):\\
+\ShowSequence{}{\Rubik}{U} \ShowSequence{}{\Rubik}{Up}
+\ShowSequence{}{\Rubik}{Um} \ShowSequence{}{\Rubik}{Ump} \ShowSequence{}{\Rubik}{Us}
+\ShowSequence{}{\Rubik}{R}\ldots
+\ShowSequence{}{\Rubik}{L}\ldots
+\ShowSequence{}{\Rubik}{F}\ldots\\
+There is a preference to move the whole cube to access Back \ShowSequence{}{\Rubik}{B}
+and Down \ShowSequence{}{\Rubik}{D}.\\
+As \ShowSequence{}{\Rubik}{y}$^2$ will rotate the whole cube 180 degrees,
+moving the Back face to the Front.
+
+\section{Rubik Solving}
+
+\begin{wrapfigure}{r}{5cm}
+  \vspace{20pt}
+  \begin{center}
+    \RubikCubeSolvedWY%
+    \ShowCube{4cm}{0.4}{\DrawRubikCubeF}
+  \end{center}
+  \caption{Flat Cube (white opposed by yellow)}
+
+  \begin{center}
+    \RubikCubeSolvedWB%
+    \ShowCube{4cm}{0.4}{\DrawRubikCubeF}
+  \end{center}
+  \caption{Flat Cube (white opposed by blue)}
+
+  \begin{center}
+    \RubikCubeSolvedWY%
+    \RubikRotation{random,120}
+    \ShowCube{4cm}{0.4}{\DrawRubikCubeF}
+  \end{center}
+  \caption{Random Cube}
+
+\end{wrapfigure}
+
+Make top white face, then \ShowSequence{}{\Rubik}{x}$^2$ to bring
+yellow to the top:
+\subsection{Edge Moves (use to make middle layer)}
+\noindent%
+(a) \newcommand{\edgemoveA}{U,R,Up,Rp,Up,Fp,U,F}%
+\RubikCubeGreyAll{}%
+\RubikFaceUp{X}{X}{X}%
+            {X}{X}{X}%
+            {X}{B}{X}%
+\RubikSliceTopR{X}{O}{X}{X}{X}{X}
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}%
+\RubikRotation{\edgemoveA}%
+\quad
+\ShowSequence{}{\Rubik}{\edgemoveA}%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\\
+\setlength{\parindent}{10ex}\par
+(b) \newcommand{\edgemoveB}{Up,Lp,U,L,U,F,Up,Fp}%
+\RubikCubeGreyAll{}%
+\RubikFaceUp{X}{X}{X}%
+            {X}{X}{X}%
+            {X}{B}{X}%
+\RubikSliceTopR{X}{O}{X}{X}{X}{X}
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeLU}%
+\RubikRotation{\edgemoveB}%
+\quad
+\ShowSequence{}{\Rubik}{\edgemoveB}%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeLU}\\
+
+\subsection{Corner Swaps (use to get corners in correct position)}
+\noindent%
+(a) \newcommand{\cornerswapA}{Lp,Up,L,F,U,Fp,Lp,U,L,U2}%
+\RubikCubeGreyAll{}%
+\RubikFaceUp{X}{X}{X}%
+            {X}{X}{X}%
+            {B}{X}{G}%
+\RubikFaceLeft{X}{X}{Y}%
+              {X}{X}{X}%
+              {X}{X}{X}%
+\RubikFaceRight{Y}{X}{X}%
+               {X}{X}{X}%
+               {X}{X}{X}%
+\RubikFaceFront{O}{X}{O}%
+               {X}{X}{X}%
+               {X}{X}{X}%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}%
+\RubikRotation{\cornerswapA}%
+\quad
+\ShowSequence{}{\Rubik}{\SequenceShort}\ShowSequence{}{\Rubik}{U}$2$%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\\
+\setlength{\parindent}{10ex}\par
+(b) \newcommand{\cornerswapB}{Lp,Up,L,F,U2,Fp,Lp,U,L}%
+\RubikCubeGreyAll{}%
+\RubikFaceUp{B}{X}{G}%
+            {X}{X}{X}%
+            {B}{X}{G}%
+\RubikFaceLeft{B}{X}{B}%
+              {X}{X}{X}%
+              {X}{X}{X}%
+\RubikFaceRight{G}{X}{G}%
+               {X}{X}{X}%
+               {X}{X}{X}%
+\RubikFaceFront{B}{X}{G}%
+               {X}{X}{X}%
+               {X}{X}{X}%
+\RubikFaceBack{G}{X}{B}%
+              {X}{X}{X}%
+              {X}{X}{X}%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}%
+\RubikRotation{\cornerswapB}%
+\quad
+\ShowSequence{}{\Rubik}{Lp,Up,L,F,U}$2$\ShowSequence{}{\Rubik}{Fp,Lp,U,L}%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\\
+
+\subsection{Corner Side-to-Top (use to flip sides up to top)}
+\noindent%
+(a) \newcommand{\cornersidetopA}{R,U,Rp,U,R,U2,Rp,U2}%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{X}{X}{X} {X}{X}{X} {Y}{X}{X}
+  \DrawRubikLayerSideLTy{Y}
+  \DrawRubikLayerSideRTx{Y}
+  \DrawRubikLayerSideRBy{Y}
+  \node(LB) at (0.5, 0.5) [black]{\small\textsf{X}};
+}
+\RubikRotation{\cornersidetopA}%
+\quad
+\ShowSequence{}{\Rubik}{R,U,Rp,U,R,U}$2$\ShowSequence{}{\Rubik}{Rp,U}$2$%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{Y}{X}{Y} {X}{X}{X} {Y}{X}{Y}
+  \node(LB) at (0.5, 0.5) [black]{\small\textsf{X}};
+}\\
+\setlength{\parindent}{10ex}\par
+(b) \newcommand{\cornersidetopB}{Lp,Up,L,Up,Lp,U2,L,U2}%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{X}{X}{X} {X}{X}{X} {X}{X}{Y}
+  \DrawRubikLayerSideLTx{Y}
+  \DrawRubikLayerSideRTy{Y}
+  \DrawRubikLayerSideLBy{Y}
+  \node(LB) at (2.5, 0.5) [black]{\small\textsf{X}};
+}
+\RubikRotation{\cornersidetopB}%
+\quad
+\ShowSequence{}{\Rubik}{Lp,Up,L,Up,Lp,U}$2$\ShowSequence{}{\Rubik}{L,U}$2$%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{Y}{X}{Y} {X}{X}{X} {Y}{X}{Y}
+  \node(LB) at (2.5, 0.5) [black]{\small\textsf{X}};
+}\\
+
+\subsection{Edge Cycle (use to cycle edges, make sure corners are correct!)}
+\noindent%
+(a) \newcommand{\edgecycleA}{Rm,Up,Lm,U2,Rm,Up,Lm}%
+\RubikCubeSolved%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}%
+\quad
+\ShowCube{1.6cm}{0.4}{%
+  \DrawFlatUpSide%
+  \draw[thick,->,color=magenta] (2.5,1.5)-- (1.6, 2.4);
+  \draw[thick,->,color=magenta] (1.5,2.5)-- (0.6, 1.6);
+  \draw[thick,->] (0.5,1.4)-- (2.4, 1.4);
+}%
+\RubikRotation{\edgecycleA}%
+\quad
+\ShowSequence{}{\Rubik}{Rm,Up,Lm,U}$2$\ShowSequence{}{\Rubik}{Rm,Up,Lm}%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawFlatUpSide}%\\
+\vspace{5pt}
+\setlength{\parindent}{10ex}\par
+(b) \newcommand{\edgecycleB}{Rm,U,Lm,U2,Rm,U,Lm}%
+\RubikCubeSolved%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}%
+\quad
+\ShowCube{1.6cm}{0.4}{%
+  \DrawFlatUpSide%
+  \draw[thick,->,color=magenta] (1.5,2.5)-- (2.4, 1.6);
+  \draw[thick,->,color=magenta] (0.5,1.5)-- (1.4, 2.4);
+  \draw[thick,->] (2.5,1.4)-- (0.6, 1.4);
+}%
+\RubikRotation{\edgecycleB}%
+\quad
+\ShowSequence{}{\Rubik}{Rm,U,Lm,U}$2$\ShowSequence{}{\Rubik}{Rm,U,Lm}%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawFlatUpSide}%\\
+
+\subsection{Dedmore ``H'' Pattern}
+\noindent%
+(a) \newcommand{\dedmorehA}{Rm,U,Rm,U,Rm,U,Rm,U,Rm,Up,Rm,Up,Rm,Up,Rm,Up}%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{X}{X}{X} {G}{X}{B} {X}{X}{X}
+  \DrawRubikLayerSideLMx{Y}
+  \DrawRubikLayerSideRMx{Y}
+}
+\RubikRotation{\cornersidetopB}%
+\quad
+\Rubikbracket{\ShowSequence{}{\Rubik}{Rm,U}}$4$\Rubikbracket{\ShowSequence{}{\Rubik}{Rm,Up}}$4$%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{X}{X}{X} {Y}{X}{Y} {X}{X}{X}
+  \DrawRubikLayerSideLMx{G}
+  \DrawRubikLayerSideRMx{B}
+}\\
+\setlength{\parindent}{10ex}\par
+(b) \newcommand{\dedmorehB}{Rp,Um,R2,Um2,Rp,U2,R,Um2,R2,Ump,R,U2}%
+\RubikRotation{\cornersidetopB}%
+\quad
+\ShowSequence{}{\Rubik}{Rp,Um,R}$2$\ShowSequence{}{\Rubik}{Um}$2$\ShowSequence{}{\Rubik}{Rp,U}$2$\ShowSequence{}{\Rubik}{R,Um}$2$\ShowSequence{}{\Rubik}{R}$2$\ShowSequence{}{\Rubik}{Ump,R,U}$2$%
+\quad$\longrightarrow$\quad%
+\\
+
+\subsection{Dedmore ``Fish'' Pattern}
+\noindent%
+(a) \newcommand{\dedmorefishA}{F,R,Rm,U,Rm,U,Rm,U,Rm,U,Rm,Up,Rm,Up,Rm,Up,Rm,Up,Rp,Fp}%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{X}{X}{X} {G}{X}{X} {X}{B}{X}
+  \DrawRubikLayerSideLMx{Y}
+  \DrawRubikLayerSideMBy{Y}
+}
+\RubikRotation{\cornersidetopB}%
+\quad
+\Rubikbracket{\ShowSequence{}{\Rubik}{F,R}} + Dedmore ``H'' + \Rubikbracket{\ShowSequence{}{\Rubik}{Rp,Fp}}
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{%
+  \DrawRubikLayerFace{X}{X}{X} {Y}{X}{X} {X}{Y}{X}
+  \DrawRubikLayerSideLMx{G}
+  \DrawRubikLayerSideMBy{B}
+}\\
+
+
+\section{Rubik Patterns}
+
+A Rubik pattern is the configuration generated by a sequence of
+rotations from some initial starting configuration (typically a ``solved'' configuration).\\
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\newcommand{\MyPonsAsinorum}{Rs2,Us2,y,Rs2,yp}%
+\RubikRotation{\MyPonsAsinorum}%
+\quad\SequenceBraceB{PonsAsinorum}{%
+  \ShowSequence{}{\Rubik}{Rs}$2$\ShowSequence{}{\Rubik}{Us}$2$\ShowSequence{}{\Rubik}{y,Rs}$2$\ShowSequence{}{\Rubik}{yp}%
+}
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\Superflip}%
+\quad\SequenceBraceB{Superflip}{%
+  \Rubikbrace{\Rubikbracket{\Rubik{Rmp}\Rubik{Up}}4 \Rubik{yp} \Rubik{x}}3
+}
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\CubeInCube}%
+\quad\SequenceBraceB{\SequenceName}{%
+  \ShowSequence{}{\Rubik}{\SequenceLong}%
+}
+%% \SequenceName\space\SequenceLong%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\Python}%
+\quad\SequenceBraceB{\SequenceName}{%
+  \ShowSequence{}{\Rubik}{\SequenceLong}%
+}
+%% \SequenceName\space\SequenceLong%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\SixSpot}%
+\quad\SequenceBraceB{\SequenceName}{%
+  \ShowSequence{}{\Rubik}{\SequenceLong}%
+}
+%% \SequenceName\space\SequenceLong%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\OrthogonalBars}%
+\quad\SequenceBraceB{\SequenceName}{%
+  \ShowSequence{}{\Rubik}{\SequenceLong}%
+}
+%% \SequenceName\space\SequenceLong%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\SixTs}%
+\quad\SequenceBraceB{\SequenceName}{%
+  \ShowSequence{}{\Rubik}{\SequenceLong}%
+}
+%% \SequenceName\space\SequenceLong%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+
+\setlength{\parindent}{0ex}\par
+\RubikCubeSolved%
+\RubikRotation{\ExchangedRings}%
+\quad\SequenceBraceB{\SequenceName}{%
+  \ShowSequence{}{\Rubik}{\SequenceLong}%
+}
+%% \SequenceName\space\SequenceLong%
+\quad$\longrightarrow$\quad%
+\ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+
+%%%\foreach\patSeq [count=\patSeqi] in
+%%%{\CheckerboardsThree,\CheckerboardsSix,\Stripes,\CubeInCubeInCube,\ChristmasCross,\PlummersCross,\Anaconda,\Python,\BlackMamba,\GreenMamba,\FemaleRattlesnake,\MaleRattlesnake,\FemaleBoa,\MaleBoa,\FourSpot,\SixSpot,\OrthogonalBars,\SixTs,\SixTwoOne,\ExchangedPeaks,\TwoTwistedPeaks,\FourTwistedPeaks,\ExchangedChickenFeet,\TwistedChickenFeet,\ExchangedRings,\TwistedRings,\EdgeHexagonTwo,\EdgeHexagonThree,\TomParksPattern,\RonsCubeInCube,\TwistedDuckFeet,\ExchangedDuckFeet}
+%%%{%
+%%%  \setlength{\parindent}{0ex}\par
+%%%  \RubikCubeSolved%
+%%%  \RubikRotation{\patSeq}%
+%%%  \quad\SequenceBraceB{\SequenceName}{%
+%%%    \ShowSequence{}{\Rubik}{\SequenceLong}%
+%%%  }
+%%%  %%\SequenceName\space\SequenceLong%
+%%%  \quad$\longrightarrow$\quad%
+%%%  \ShowCube{1.6cm}{0.4}{\DrawRubikCubeRU}\quad\\%
+%%%}
+
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% LaTeX-command: "latex --shell-escape"
+%%% End:
